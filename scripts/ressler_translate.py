@@ -89,7 +89,8 @@ def write_header(hfp, r, h, p, gam, a, mu_i, mu_e, mu_tot):
     hfp['header']['geom']['eks']['r_in'] = np.exp(startx1)
     hfp['header']['geom']['eks']['r_out'] = np.exp(startx1 + dx1*N1)
     
-    hfp['header']['n_prim'] = 2+3+3+1
+    if (ELECTRONS): hfp['header']['n_prim'] = 2+3+3+3
+    else: hfp['header']['n_prim'] = 2+3+3+1
     hfp['header']['n_prims_passive'] = 0
     hfp['header']['gam'] = gam
     hfp['header']['has_electrons'] = 3  # forces Theate_unit = MP/ME
@@ -261,15 +262,16 @@ if __name__ == "__main__":
 
     prims[:, :, :, 5:8] *= B_FACTOR
 
-    prims[:, :, :, 8] = press / rho * TE_FACTOR * KELVIN_TO_THETAE
-
     if (ELECTRONS): 
         asc.kappa_to_ue(d['ke_ent'],rho,gr=True,mue=2.0)
-        prims[:, :, :, 9] = asc.theta_e
+        prims[:, :, :, 8] = asc.theta_e
         asc.kappa_to_ue(d['ke_ent2'],rho,gr=True,mue=2.0)
-        prims[:, :, :, 10] = asc.theta_e
+        prims[:, :, :, 9] = asc.theta_e
         asc.kappa_to_ue(d['ke_ent3'],rho,gr=True,mue=2.0)
-        prims[:, :, :, 11] = asc.theta_e
+        prims[:, :, :, 10] = asc.theta_e
+    else:
+        prims[:, :, :, 8] = press / rho * TE_FACTOR * KELVIN_TO_THETAE
+
 
 
 
