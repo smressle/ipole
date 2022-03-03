@@ -720,7 +720,7 @@ void init_hamr_grid(char *fnam, int dumpidx)
     ELECTRONS = 2;
     fprintf(stderr, "using mixed tp_over_te with trat_small = %g, trat_large = %g, and beta_crit = %g\n",
       trat_small, trat_large, beta_crit);
-    printf(stderr, "Is this being called?\n");
+    fprintf(stderr, "Is this being called?\n");
     // Thetae_unit set per-zone below
   } else {
     fprintf(stderr, "! please change electron model in model/iharm.c\n");
