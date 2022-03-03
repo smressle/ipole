@@ -18,7 +18,9 @@
 // and never with KEL.
 #define TFLK 8  // temperature of fluid in Kelvin
 #define THF  8  // fluid temperature in me c^2
-
+#define THETAE_HOWES 8
+#define THETAE_ROWAN 9
+#define THETAE_WERNER 10
 extern double DTd;
 extern double sigma_cut;
 

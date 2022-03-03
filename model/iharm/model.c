@@ -17,7 +17,7 @@
 #include <assert.h>
 #include <string.h>
 
-#define NVAR (10)
+#define NVAR (11)
 #define USE_FIXED_TPTE (0)
 #define USE_MIXED_TPTE (1)
 #define NSUP (3)
@@ -79,6 +79,9 @@ double tf;
 //    1 : use dump file model (kawazura?)
 //    2 : use mixed TP_OVER_TE (beta model)
 //    3 : use mixed TP_OVER_TE (beta model) with fluid temperature
+//    4 : use athena dump file model (Howes)
+//    5 : use athena dump file model (Rowan)
+//    6 : use athena dump file model (Werner)
 //    9 : load Te (in Kelvin) from dump file (KORAL etc.)
 // TODO the way this is selected is horrid.  Make it a parameter.
 #define ELECTRONS_TFLUID (3)
@@ -580,6 +583,12 @@ void init_physical_quantities(int n)
           double lcl_Thetae_u = (MP/ME) * (game-1.) * (gamp-1.) / ( (gamp-1.) + (game-1.)*trat );
           Thetae_unit = lcl_Thetae_u;
           data[n]->thetae[i][j][k] = lcl_Thetae_u*data[n]->p[UU][i][j][k]/data[n]->p[KRHO][i][j][k];
+        } else if (ELECTRONS ==4){
+          data[n]->thetae[i][j][k] = data[n]->p[THETAE_HOWES][i][j][k];
+        } else if (ELECTRONS ==5){
+          data[n]->thetae[i][j][k] = data[n]->p[THETAE_ROWAN][i][j][k];
+        } else if (ELECTRONS ==6){
+          data[n]->thetae[i][j][k] = data[n]->p[THETAE_WERNER][i][j][k];
         } else if (ELECTRONS == 9) {
           // convert Kelvin -> Thetae
           data[n]->thetae[i][j][k] = data[n]->p[TFLK][i][j][k] * KBOL / ME / CL / CL;
@@ -1818,6 +1827,14 @@ void load_iharm_data(int n, char *fnam, int dumpidx, int verbose)
     hdf5_read_array(data[n]->p[KTOT][0][0], "prims", 4, fdims, fstart, fcount, mdims, mstart, H5T_IEEE_F64LE);
   }
 
+  if (ELECTRONS == 4 || ELECTRONS ==5 || ELECTRONS == 6) {
+    fstart[3] = 8;
+    hdf5_read_array(data[n]->p[THETAE_HOWES][0][0], "prims", 4, fdims, fstart, fcount, mdims, mstart, H5T_IEEE_F64LE);
+    fstart[3] = 9;
+    hdf5_read_array(data[n]->p[THETAE_ROWAN][0][0], "prims", 4, fdims, fstart, fcount, mdims, mstart, H5T_IEEE_F64LE);
+    fstart[3] = 10;
+    hdf5_read_array(data[n]->p[THETAE_WERNER][0][0], "prims", 4, fdims, fstart, fcount, mdims, mstart, H5T_IEEE_F64LE);
+  }
   //Reversing B Field
   if(reverse_field) {
     double multiplier = -1.0;
