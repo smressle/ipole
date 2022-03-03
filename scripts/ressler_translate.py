@@ -264,12 +264,12 @@ if __name__ == "__main__":
     prims[:, :, :, 8] = press / rho * TE_FACTOR * KELVIN_TO_THETAE
 
     if (ELECTRONS): 
-        kappa_to_ue(d['ke_ent'],rho,gr=True,mue=2.0)
-        prims[:, :, :, 9] = theta_e
-        kappa_to_ue(d['ke_ent2'],rho,gr=True,mue=2.0)
-        prims[:, :, :, 10] = theta_e
-        kappa_to_ue(d['ke_ent3'],rho,gr=True,mue=2.0)
-        prims[:, :, :, 11] = theta_e
+        asc.kappa_to_ue(d['ke_ent'],rho,gr=True,mue=2.0)
+        prims[:, :, :, 9] = asc.theta_e
+        asc.kappa_to_ue(d['ke_ent2'],rho,gr=True,mue=2.0)
+        prims[:, :, :, 10] = asc.theta_e
+        asc.kappa_to_ue(d['ke_ent3'],rho,gr=True,mue=2.0)
+        prims[:, :, :, 11] = asc.theta_e
 
 
 
