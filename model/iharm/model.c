@@ -19,7 +19,7 @@
 
 #define NVAR (11)
 #define USE_FIXED_TPTE (0)
-#define USE_MIXED_TPTE (1)
+#define USE_MIXED_TPTE (0)
 #define NSUP (3)
 
 #define USE_GEODESIC_SIGMACUT (1)
