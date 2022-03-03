@@ -14,6 +14,9 @@
 #define B3   7
 #define KEL  8
 #define KTOT 9
+#define THETAE_HOWES 8
+#define THETAE_ROWAN 9
+#define THETAE_WERNER 10
 
 extern double DTd;
 extern double sigma_cut;
