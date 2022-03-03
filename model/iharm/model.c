@@ -868,14 +868,15 @@ void init_iharm_grid(char *fnam, int dumpidx)
   // we can override which electron model to use here. print results if we're
   // overriding anything. ELECTRONS should only be nonzero if we need to make
   // use of extra variables (instead of just UU and RHO) for thetae
-  if (!USE_FIXED_TPTE && !USE_MIXED_TPTE) {
-    if (ELECTRONS != 1) {
-      fprintf(stderr, "! no electron temperature model specified! Cannot continue\n");
-      exit(-3);
-    }
-    ELECTRONS = 1;
-    Thetae_unit = MP/ME;
-  } else if (ELECTRONS == ELECTRONS_TFLUID) {
+  //if (!USE_FIXED_TPTE && !USE_MIXED_TPTE) {
+  //  if (ELECTRONS != 1) {
+  //    fprintf(stderr, "! no electron temperature model specified! Cannot continue\n");
+  //    exit(-3);
+  //  }
+  //  ELECTRONS = 1;
+  //  Thetae_unit = MP/ME;
+  //} else 
+  if (ELECTRONS == ELECTRONS_TFLUID) {
     fprintf(stderr, "Using Ressler/Athena electrons with mixed tp_over_te and\n");
     fprintf(stderr, "trat_small = %g, trat_large = %g, and beta_crit = %g\n", trat_small, trat_large, beta_crit);
   } else if (USE_FIXED_TPTE && !USE_MIXED_TPTE) {
