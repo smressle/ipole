@@ -820,7 +820,7 @@ void init_iharm_grid(char *fnam, int dumpidx)
     fprintf(stderr, "Loaded molecular weights (mu_i, mu_e, mu_tot): %g %g %g\n", mu_i, mu_e, mu_tot);
     Ne_factor = 1. / mu_e;
     hdf5_set_directory("/header/");
-    ELECTRONS = ELECTRONS_TFLUID;
+    //ELECTRONS = ELECTRONS_TFLUID;
   }
 
   char metric_name[20];
