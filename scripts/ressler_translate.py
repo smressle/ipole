@@ -250,8 +250,8 @@ if __name__ == "__main__":
     bcov_ks = np.einsum('abij,abi->abj', gcov_ks, bcon_ks[:, :, 0, :])
     udotu = np.einsum('abi,abi->ab', ucon_ks[:, :, 0, :], ucov_ks)
     bsq_check = np.einsum('abi,abi->ab', bcon_ks[:, :, 0, :], bcov_ks)
-    print("   udotu check:", np.allclose(udotu, -1.))
-    print("   bsq check:", np.allclose(bsq_check, bsq[:, :, 0]))
+    print("   udotu check:", np.allclose(udotu, -1.,rtol=1e-3))
+    print("   bsq check:", np.allclose(bsq_check, bsq[:, :, 0],rtol=13-3))
 
     # note here that X is eks and x is ks
     print(" - translating from native ks -> eks")
