@@ -9,7 +9,7 @@ import h5py
 import sys
 import os
 
-ELECTRONS=1
+ELECTRONS=True
 
 sys.path.append("/global/scratch/users/smressle/star_cluster/restart_grmhd/vis/python")
 from athena_script import *
@@ -245,7 +245,7 @@ if __name__ == "__main__":
    
     # generate prims with eks components at eks spacing
     print(" - generating prims array")
-    if (ELECTRONS): prims = np.zeros((N1, N2, N3, 9+3))
+    if (ELECTRONS): prims = np.zeros((N1, N2, N3, 8+3))
     else: prims = np.zeros((N1, N2, N3, 9))
     prims[:, :, :, 0] = rho * RHO_FACTOR
     prims[:, :, :, 1] = press / (fluid_gamma - 1.) * B_FACTOR*B_FACTOR

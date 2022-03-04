@@ -20,6 +20,8 @@
 #define NVAR (11)
 #define USE_FIXED_TPTE (0)
 #define USE_MIXED_TPTE (0)
+#define USE_ATHENA_ELECTRONS (1)
+
 #define NSUP (3)
 
 #define USE_GEODESIC_SIGMACUT (1)
@@ -721,7 +723,7 @@ void init_hamr_grid(char *fnam, int dumpidx)
     fprintf(stderr, "using mixed tp_over_te with trat_small = %g, trat_large = %g, and beta_crit = %g\n",
       trat_small, trat_large, beta_crit);
     // Thetae_unit set per-zone below
-  } else {
+  }else {
     fprintf(stderr, "! please change electron model in model/iharm.c\n");
     exit(-3);
   }
@@ -868,7 +870,7 @@ void init_iharm_grid(char *fnam, int dumpidx)
   // we can override which electron model to use here. print results if we're
   // overriding anything. ELECTRONS should only be nonzero if we need to make
   // use of extra variables (instead of just UU and RHO) for thetae
-  if (!USE_FIXED_TPTE && !USE_MIXED_TPTE) {
+  if (!USE_FIXED_TPTE && !USE_MIXED_TPTE && !USE_ATHENA_ELECTRONS) {
     if (ELECTRONS != 1) {
       fprintf(stderr, "! no electron temperature model specified! Cannot continue\n");
       exit(-3);
@@ -878,19 +880,26 @@ void init_iharm_grid(char *fnam, int dumpidx)
   } else if (ELECTRONS == ELECTRONS_TFLUID) {
     fprintf(stderr, "Using Ressler/Athena electrons with mixed tp_over_te and\n");
     fprintf(stderr, "trat_small = %g, trat_large = %g, and beta_crit = %g\n", trat_small, trat_large, beta_crit);
-  } else if (USE_FIXED_TPTE && !USE_MIXED_TPTE) {
+  } else if (USE_FIXED_TPTE && !USE_MIXED_TPTE && !USE_ATHENA_ELECTRONS) {
     ELECTRONS = 0; // force TP_OVER_TE to overwrite bad electrons
     fprintf(stderr, "Using fixed tp_over_te ratio = %g\n", tp_over_te);
     //Thetae_unit = MP/ME*(gam-1.)*1./(1. + tp_over_te);
     // see, e.g., Eq. 8 of the EHT GRRT formula list. 
     // this formula assumes game = 4./3 and gamp = 5./3
     Thetae_unit = 2./3. * MP/ME / (2. + tp_over_te);
-  } else if (USE_MIXED_TPTE && !USE_FIXED_TPTE) {
+  } else if (USE_MIXED_TPTE && !USE_FIXED_TPTE && !USE_ATHENA_ELECTRONS) {
     ELECTRONS = 2;
     fprintf(stderr, "Using mixed tp_over_te with trat_small = %g, trat_large = %g, and beta_crit = %g\n", 
       trat_small, trat_large, beta_crit);
     // Thetae_unit set per-zone below
-  } else {
+  } else if (USE_ATHENA_ELECTRONS && !USE_FIXED_TPTE && !USE_MIXED_TPTE){
+    if (ELECTRONS==4) fprintf(stderr, "using Howe's electrons \n"); 
+    else if (ELECTRONS==5) fprintf(stderr, "using Rowan's electrons \n"); 
+    else if (ELECTRONS==6) fprintf(stderr, "using Werner's electrons \n"); 
+    else {
+      fprintf(stderr, "! please change electron model in model/iharm.c\n");
+      exit(-3);
+    }else {
     fprintf(stderr, "Unknown electron model %d! Cannot continue.\n", ELECTRONS);
     exit(-3);
   }
@@ -1215,7 +1224,7 @@ void output_hdf5()
     hdf5_write_single_val(&trat_small, "rlow", H5T_IEEE_F64LE);
     hdf5_write_single_val(&trat_large, "rhigh", H5T_IEEE_F64LE);
     hdf5_write_single_val(&beta_crit, "beta_crit", H5T_IEEE_F64LE);
-  } else if (ELECTRONS == ELECTRONS_TFLUID) {
+  } else if (ELECTRONS == ELECTRONS_TFLUID || ELECTRONS ==4 || ELECTRONS == 5 || ELECTRONS==6) {
     hdf5_write_single_val(&mu_i, "mu_i", H5T_IEEE_F64LE);
     hdf5_write_single_val(&mu_e, "mu_e", H5T_IEEE_F64LE);
     hdf5_write_single_val(&mu_tot, "mu_tot", H5T_IEEE_F64LE);
