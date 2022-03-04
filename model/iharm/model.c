@@ -899,7 +899,8 @@ void init_iharm_grid(char *fnam, int dumpidx)
     else {
       fprintf(stderr, "! please change electron model in model/iharm.c\n");
       exit(-3);
-    }else {
+    } 
+  } else {
     fprintf(stderr, "Unknown electron model %d! Cannot continue.\n", ELECTRONS);
     exit(-3);
   }
