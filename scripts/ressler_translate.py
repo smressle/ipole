@@ -130,21 +130,41 @@ if __name__ == "__main__":
     # Ne_unit = (M_unit/L_unit^3) / (MP + ME)
     # B_unit = CL * Sqrt[ 4 Pi M_unit / L_unit^3 ]
 
+    # if False:
+    #     # beta_w = 1e2
+    #     model = {
+    #       'rho_unit': 53939.4,
+    #       'P_unit': 5.05615e+09,
+    #       'B_unit': 71106.6
+    #     }
+
     if True:
-        # beta_w = 1e2
+        # beta_w = 1e2 with electrons
+        print("Using beta_w = 1e2 Units (with electrons)\n")
         model = {
-          'rho_unit': 53939.4,
-          'P_unit': 5.05615e+09,
-          'B_unit': 71106.6
+          'rho_unit': 35402,
+          'P_unit': 3.3185e+09,
+          'B_unit': 57606.4
         }
 
     if False:
-        # beta_w = 1e6
+        # beta_w = 1e6 with electrons
+        print("Using beta_w = 1e6 Units (with electrons)\n")
         model = {
-            'rho_unit': 29737.4,
-            'P_unit': 2.78751e+09,
-            'B_unit': 52796.9
+          'rho_unit': 34359,
+          'P_unit': 3.22073e+09,
+          'B_unit': 56751.4
         }
+
+
+
+    # if False:
+    #     # beta_w = 1e6
+    #     model = {
+    #         'rho_unit': 29737.4,
+    #         'P_unit': 2.78751e+09,
+    #         'B_unit': 52796.9
+    #     }
 
     # compute target units in ipole
     pc = 3.086e18
