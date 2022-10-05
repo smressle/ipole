@@ -801,7 +801,7 @@ void init_iharm_grid(char *fnam, int dumpidx)
 
   if ( hdf5_exists("has_electrons") ) {
     //hdf5_read_single_val(&ELECTRONS, "has_electrons", H5T_STD_I32LE);
-    ELECTRONS = 5;
+    ELECTRONS = 6;
   } else {
     ELECTRONS = 0;
   }
